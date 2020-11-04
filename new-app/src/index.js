@@ -1,17 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
+// ----- Import createStore, applyMiddleware, compose functions from redux --------------
+import { createStore, applyMiddleware, compose } from 'redux'
+
+// ------- Import Provider from react-redux ------------
+import { Provider } from 'react-redux'
+
+// -------- Import thunk from redux-thunk -----------
+import thunk from 'redux-thunk'
+
+// --------- Import Logger from redux-logger --------
+import logger from 'redux-logger'
+
+// -------- Imported Styles -----------
+import './index.css';
+
+// -------- Imported Components ------------
+import App from './App';
+
+// --------- Import Reducer Function -----------
+import { reducer } from './store/reducer/calendarReducer'
+
+// ---------- create your 'store' variable ------------
+const store = createStore(reducer, applyMiddleware(thunk, logger) )
+
+// ----- wrap <Provider>  <App>  </Provider> -----
+// ----- connect <Provider> to your store variable -------
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
