@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+React-Redux Data Flow: 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    1. 'Store' sets the state
+    2. Event or user interaction happens 
+    3. An action creator is called and dispatches an action.
+    4. Actions tell us about the changes from the event and trigger reducer function.
+    5. Reducers handle the actions and replace the store with a new state obj.
 
-## Available Scripts
+React Redux App Workflow:
 
-In the project directory, you can run:
+    Install dependencies: 
+        1. npx create-react-app name-app
+        2. npm i
+        3. npm react-redux redux
+        4. npm i axios
+        5. npm i redux thunk
+        6. npm i redux-logger
+        7. npm i redux-connect
+        8. create store folder with two subfolders:
+            9. reducer folder
+            10. actions folder
+        11. create component folder
 
-### `npm start`
+    Index.js:
+    
+        Import installed dependencies:	
+            12. import React from 'react';
+            13. import ReactDOM from "react-dom";
+            14. import { createStore, applyMiddleware } from 'redux';
+            15. import { Provider } from 'react-redux';
+            16. import logger from 'redux-logger'; 
+            17. import thunk from 'redux-thunk';
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+        Import additional files and functions:
+            18. import components
+            19. import reducer function from reducer folder
+            20. import styles
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+        Create 'store w/ middleware:
+            21. const store = createStore(reducer, applyMiddleware(thunk, logger))
+            22. wrap <App> in <Provider></Provider>
+            23. connect <Provider> to the store via <Provider store = {store}>
 
-### `npm test`
+    Setup Basic reducer outline:
+        24. import actions file
+        25. set up initialState variable
+        26. sketch out standard reducer function:
+            export const reducer = (state, action) => {
+                switch(action.type) {
+                    return{
+                        ...state,
+                    }
+                }
+                default:
+                return state;
+            }
+        27. set up default by initializing the state parameter in the reducer function to the initial state value. i.e:
+            export const reducer = (state = initialState, action) 
+        
+    App.js:
+        28. import React from 'react';
+        29. import components
+        30. render component
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    Actions: (build out actions suite)
+        31. import axios from 'axios'
+        32. Action types
+        33. Action Creators
+            33a. this is where you would build your api fetching function
 
-### `npm run build`
+    Component file:
+        34. import React, { useEffect } from 'react'
+        35. import { connect } from 'react-redux'
+        36. import necessary action functions
+        37. build mapStateToProps function: Example:
+            
+            const mapStateToProps = (state) => {
+                return {
+                    isLoading: state.isLoading,
+                    holidays: state.holidayData,
+                    error: state.error
+                 };
+            };
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        38. use connect at the component export: 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+            export default connect(mapStateToProps, { actionFunction }) (ComponentName)
+        
+    Reducer file:
+        39. build out the rest of the reducer function
+        40. go to index.js and replace reduceer with custom reducer
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
